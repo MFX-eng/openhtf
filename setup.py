@@ -129,19 +129,19 @@ class BuildProtoCommand(Command):
 build.sub_commands.insert(0, ('build_proto', None))
 
 INSTALL_REQUIRES = [
-    'attrs>=19.3.0',
-    'colorama>=0.3.9',
-    'contextlib2>=0.5.1',
-    'inflection',
-    'google-auth>=1.34.0',
-    'mutablerecords>=0.4.1',
-    'protobuf>=3.6.0',
-    'PyYAML>=3.13',
-    'pyOpenSSL>=17.1.0',
-    'requests>=2.27.1',
-    'sockjs-tornado>=1.0.3',
-    'tornado>=4.3,<5.0',
-    'typing-extensions',
+    'attrs==23.2.0',
+    'colorama==0.4.6',
+    'contextlib2==21.6.0',
+    'inflection==0.5.1',
+    'google-auth==1.34.0',
+    'mutablerecords==0.4.1',
+    'protobuf==3.20.0',
+    'PyYAML==6.0.1',
+    'pyOpenSSL==24.1.0',
+    'requests==2.31.0',
+    'sockjs-tornado==1.0.7',
+    'tornado==4.5.3',
+    'typing-extensions==4.10.0',
 ]
 
 
