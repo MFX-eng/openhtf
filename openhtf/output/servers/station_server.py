@@ -20,6 +20,7 @@ aggregate info from multiple station servers with a single frontend.
 """
 
 import contextlib
+import datetime
 import itertools
 import json
 import logging
@@ -468,10 +469,21 @@ class HistoryListHandler(BaseHistoryHandler):
       dut_id = None
       start_time_millis = None
       match = re.match(r'mfg_event_(.+)_(\d+)\.pb$', file_name)
+      file_name_split = file_name.split('.')
 
       if match is not None:
         dut_id = match.group(1)
         start_time_millis = int(match.group(2))
+      else:
+        if len(file_name_split) >= 1:
+          dut_id = file_name_split[0]
+        if len(file_name_split) >= 2:
+          try:
+            dt_obj = datetime.datetime.strptime(file_name_split[1],
+                            '%d-%m-%y-%H:%M:%S')
+            start_time_millis = int(dt_obj.timestamp()*1000)
+          except ValueError:
+            start_time_millis = None
 
       if filter_dut_id and dut_id not in filter_dut_id:
         continue
@@ -486,8 +498,13 @@ class HistoryListHandler(BaseHistoryHandler):
           'start_time_millis': start_time_millis,
       })
 
-    # Wrap value in a dict because writing a list directly is prohibited.
-    self.write({'data': history_items})
+    try:
+      sorted_history_items = sorted(history_items, key=lambda x: x['start_time_millis'])
+      # Wrap value in a dict because writing a list directly is prohibited.
+      self.write({'data': sorted_history_items})
+    except:
+      #If sorting failed, just add the history items
+      self.write({'data': history_items})
 
 
 class HistoryItemHandler(BaseHistoryHandler):
