@@ -222,7 +222,7 @@ class UserInput(base_plugs.FrontendAwareBasePlug):
             'Multiple concurrent prompts are not supported.')
       prompt_id = uuid.uuid4().hex
       _LOG.debug('Displaying prompt (%s): "%s"%s', prompt_id, message,
-                 ', Expects text input.' if text_input else '')
+                 ', Expects serial number input.' if text_input else '')
 
       self._response = None
       self._prompt = Prompt(
@@ -281,8 +281,8 @@ class UserInput(base_plugs.FrontendAwareBasePlug):
 
 
 def prompt_for_test_start(
-    message: Text = 'Enter a DUT ID in order to start the test.',
-    timeout_s: Union[int, float, None] = 60 * 60 * 24,
+    message: Text = 'Enter the serial number (DUT) in order to start the test.',
+    timeout_s: Union[int, float, None] = 60 * 60 * 24 * 7,
     validator: Callable[[Text], Text] = lambda sn: sn,
     cli_color: Text = '') -> openhtf.PhaseDescriptor:
   """Returns an OpenHTF phase for use as a prompt-based start trigger.

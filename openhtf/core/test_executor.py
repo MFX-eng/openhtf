@@ -279,6 +279,11 @@ class TestExecutor(threads.KillableThread):
         self._test_start, self._run_with_profiling
     )
 
+    #If dut is None, dont generate an output callback and return True (test stop)
+    if self.running_test_state.test_record.dut_id is None:
+      self._test_options.output_callbacks = []
+      return True
+
     if profile_stats is not None:
       self._phase_profile_stats.append(profile_stats)
 

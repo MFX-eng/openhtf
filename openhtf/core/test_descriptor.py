@@ -20,6 +20,7 @@ test is a series of Phases that are executed by the OpenHTF framework.
 
 import argparse
 import collections
+import datetime
 import logging
 import os
 import sys
@@ -345,6 +346,7 @@ class Test(object):
     finally:
       try:
         final_state = self._executor.finalize()
+        self._executor.test_state.test_record.metadata['test_time_datetime'] = str(datetime.datetime.now().strftime("%d-%m-%y-%H:%M:%S"))
 
         _LOG.debug('Test completed for %s, outputting now.',
                    final_state.test_record.metadata['test_name'])
